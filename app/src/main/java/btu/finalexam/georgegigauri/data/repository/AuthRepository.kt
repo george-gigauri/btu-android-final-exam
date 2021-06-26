@@ -28,4 +28,13 @@ class AuthRepository @Inject constructor(
         emit(UIState.Loading())
     }.catch { emit(UIState.Error(it.message ?: "Unknown Error")) }
         .flowOn(Dispatchers.IO)
+
+    fun resetPassword(email: String) = flow<UIState<FirebaseUser>> {
+        emit(UIState.Loading())
+
+        auth.sendPasswordResetEmail(email).await()
+
+        emit(UIState.Error("პაროლის აღსადგენი ბმული გამოგზავნილია ელ. ფოსტაზე."))
+    }.catch { emit(UIState.Error(it.message ?: "Unknown Error")) }
+        .flowOn(Dispatchers.IO)
 }

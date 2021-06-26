@@ -34,4 +34,10 @@ class AuthViewModel @Inject constructor(
             _uiState.value = it
         }
     }
+
+    fun resetPassword(email: String) = viewModelScope.launch {
+        authRepository.resetPassword(email).collect {
+            _uiState.value = it
+        }
+    }
 }

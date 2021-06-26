@@ -1,8 +1,10 @@
 package btu.finalexam.georgegigauri.extension
 
 import android.app.Activity
+import android.content.Intent
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 
 fun Activity.toast(message: String?) {
@@ -29,4 +31,8 @@ fun Activity.snackBar(
     ).setAction(button) {
         onClick.invoke()
     }.show()
+}
+
+fun Activity.openActivity(activity: Class<*>) {
+    startActivity(Intent(this, activity))
 }
