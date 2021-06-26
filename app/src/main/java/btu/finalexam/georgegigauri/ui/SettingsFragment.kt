@@ -16,6 +16,5 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         FragmentSettingsBinding.inflate(inflater, container, false)
 
     override fun onReady() {
-        TODO("Not yet implemented")
     }
 }

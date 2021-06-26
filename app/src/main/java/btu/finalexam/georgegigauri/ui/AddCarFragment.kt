@@ -15,6 +15,5 @@ class AddCarFragment : BaseFragment<FragmentAddCarBinding>() {
         FragmentAddCarBinding.inflate(inflater, container, false)
 
     override fun onReady() {
-        TODO("Not yet implemented")
     }
 }
