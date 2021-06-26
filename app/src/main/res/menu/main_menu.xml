@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item android:id="@+id/navMain"
         android:title="მთავარი"
         android:icon="@drawable/ic_home"/>
+
     <item android:id="@+id/navAddCar"
         android:title="დამატება"
         android:icon="@drawable/ic_edit"/>
+
     <item android:id="@+id/navSettings"
         android:title="პარამეტრები"
         android:icon="@drawable/ic_settings"/>

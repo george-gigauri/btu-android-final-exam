@@ -29,11 +29,12 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun register(email: String, password: String) = viewModelScope.launch(Dispatchers.IO) {
-        authRepository.register(email, password).collect {
-            _uiState.value = it
+    fun register(name: String, email: String, password: String) =
+        viewModelScope.launch(Dispatchers.IO) {
+            authRepository.register(name, email, password).collect {
+                _uiState.value = it
+            }
         }
-    }
 
     fun resetPassword(email: String) = viewModelScope.launch {
         authRepository.resetPassword(email).collect {

@@ -13,6 +13,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         FragmentHomeBinding.inflate(inflater, container, false)
 
     override fun onReady() {
-        TODO("Not yet implemented")
     }
 }

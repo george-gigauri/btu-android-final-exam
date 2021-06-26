@@ -30,6 +30,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
     private fun setOnClickListeners() {
         binding.btnLogin.setOnClickListener { login() }
         binding.tvResetPassword.setOnClickListener { resetPassword() }
+        binding.llSignUp.setOnClickListener { openActivity(RegisterActivity::class.java) }
     }
 
     private fun login() {
