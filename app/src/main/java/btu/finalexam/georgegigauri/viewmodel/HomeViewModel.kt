@@ -19,7 +19,7 @@ class HomeViewModel @Inject constructor(
     private val fireStore: FirebaseFirestore
 ) : ViewModel() {
 
-    val _sort: MutableStateFlow<SortBy> = MutableStateFlow(SortBy.DEFAULT)
+    private val _sort: MutableStateFlow<SortBy> = MutableStateFlow(SortBy.DEFAULT)
 
     private val _carsUiState: MutableStateFlow<UIState<List<Car>>> =
         MutableStateFlow(UIState.Empty())
@@ -29,21 +29,33 @@ class HomeViewModel @Inject constructor(
         getCars()
     }
 
-    fun refresh() = getCars()
+    fun refresh(sortBy: SortBy = SortBy.DEFAULT) = getCars(sortBy)
 
     private fun getCars(sortBy: SortBy = SortBy.DEFAULT) = viewModelScope.launch(Dispatchers.IO) {
         _carsUiState.value = UIState.Loading()
-        val result = fireStore.collection("cars").get().await()
+
+        val result = fireStore.collection("cars").apply {
+            if (sortBy != SortBy.DEFAULT)
+                orderBy(sortBy.toString())
+        }.get().await()
+
         val list = result.toObjects(Car::class.java)
         _carsUiState.value = UIState.Success(list)
     }
 
     enum class SortBy {
-        DEFAULT,
-        ASCENDING,
-        DESCENDING,
-        COMMENT,
-        BRAND,
-        AUTHOR
+        DEFAULT {
+            override fun toName(): String = "არაფერი"
+        },
+        BRAND {
+            override fun toName(): String = "ბრენდი"
+            override fun toString(): String = "brand"
+        },
+        AUTHOR {
+            override fun toName(): String = "ავტორი"
+            override fun toString(): String = "authorName"
+        };
+
+        abstract fun toName(): String
     }
 }

@@ -3,6 +3,7 @@ package btu.finalexam.georgegigauri.ui
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import btu.finalexam.georgegigauri.adapter.CarAdapter
@@ -13,6 +14,7 @@ import btu.finalexam.georgegigauri.util.UIState
 import btu.finalexam.georgegigauri.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(), CarAdapter.OnCarItemClickListener {
@@ -33,6 +35,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), CarAdapter.OnCarItemCl
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.refresh()
         }
+
+        binding.ivSort.setOnClickListener { showMenu() }
     }
 
     private suspend fun initObservers() {
@@ -55,6 +59,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), CarAdapter.OnCarItemCl
                 }
             }
         }
+    }
+
+    private fun showMenu() {
+        val popup = PopupMenu(requireContext(), binding.ivSort)
+        HomeViewModel.SortBy.values().forEach { popup.menu.add(it.toName()) }
+
+        popup.setOnMenuItemClickListener { item ->
+            when (item.title) {
+                HomeViewModel.SortBy.DEFAULT.toName() -> viewModel.refresh()
+                HomeViewModel.SortBy.BRAND.toName() -> viewModel.refresh(HomeViewModel.SortBy.BRAND)
+                HomeViewModel.SortBy.AUTHOR.toName() -> viewModel.refresh(HomeViewModel.SortBy.AUTHOR)
+            }
+
+            return@setOnMenuItemClickListener true
+        }
+        popup.show()
     }
 
     override fun showProgress() {
