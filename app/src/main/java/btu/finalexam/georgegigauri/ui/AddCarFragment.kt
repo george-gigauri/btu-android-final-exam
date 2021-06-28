@@ -4,21 +4,23 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import btu.finalexam.georgegigauri.R
 import btu.finalexam.georgegigauri.base.BaseFragment
 import btu.finalexam.georgegigauri.databinding.FragmentAddCarBinding
+import btu.finalexam.georgegigauri.extension.snackBar
 import btu.finalexam.georgegigauri.extension.visible
+import btu.finalexam.georgegigauri.util.UIState
 import btu.finalexam.georgegigauri.viewmodel.AddCarViewModel
-import btu.finalexam.georgegigauri.viewmodel.AuthViewModel
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.ImageDecoderResourceDecoder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class AddCarFragment : BaseFragment<FragmentAddCarBinding>() {
@@ -51,9 +53,31 @@ class AddCarFragment : BaseFragment<FragmentAddCarBinding>() {
 
         }
         binding.btnAdd.setOnClickListener { addCar() }
-
+        lifecycleScope.launchWhenStarted { initObserver() }
     }
 
+    private suspend fun initObserver() {
+        viewModel.uiState.collect {
+            when (it) {
+                is UIState.Success -> {
+                    requireActivity().findNavController(
+                        R.id.nav_host_fragment
+                    ).navigate(R.id.navMain)
+
+                    resetScreen()
+                }
+
+                is UIState.Loading -> showProgress()
+
+                is UIState.Error -> {
+                    hideProgress()
+                    snackBar(it.message)
+                }
+
+                else -> Unit
+            }
+        }
+    }
 
 
     private fun addCar() {
@@ -61,7 +85,7 @@ class AddCarFragment : BaseFragment<FragmentAddCarBinding>() {
         val model = binding.etModel.text.toString()
         val description = binding.etDescription.text.toString()
 
-        if(brand.isEmpty()){
+        if (brand.isEmpty()) {
             binding.etBrand.error = "გთხოვთ მიუთითოთ მანქანის ბრენდი"
             binding.etBrand.requestFocus()
             return
@@ -92,16 +116,13 @@ class AddCarFragment : BaseFragment<FragmentAddCarBinding>() {
         getImage.launch(intent)
     }
 
-    private fun resetScreen(){
+    private fun resetScreen() {
         binding.ivImage.visible(true)
         binding.tvAddImage.visible(true)
         binding.addCardView.setPadding(42)
         binding.ivPicture.visible(false)
-        binding.etBrand.text = ""
-        binding.etModel.text = ""
-        binding.etDescription.text = ""
+        binding.etBrand.text.clear()
+        binding.etModel.text.clear()
+        binding.etDescription.text.clear()
     }
-
-
-
 }
