@@ -36,6 +36,13 @@ class CarRepository @Inject constructor(
         }
     }.catch { emit(UIState.Error(it.message ?: "Unknown Error")) }.flowOn(Dispatchers.IO)
 
+    fun get(carId: String) = flow {
+        emit(UIState.Loading())
+
+        val result = fireStore.collection("cars").document(carId).get().await()
+        emit(UIState.Success(result.toObject(Car::class.java)!!))
+    }.catch { emit(UIState.Error(it.message ?: "Unknown Error")) }.flowOn(Dispatchers.IO)
+
     fun addCar(brand: String, model: String, description: String, image: Uri) = flow {
         emit(UIState.Loading())
 
