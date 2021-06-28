@@ -3,23 +3,21 @@ package btu.finalexam.georgegigauri.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import btu.finalexam.georgegigauri.data.model.Car
+import btu.finalexam.georgegigauri.data.repository.CarRepository
 import btu.finalexam.georgegigauri.util.UIState
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val fireStore: FirebaseFirestore
+    private val carRepository: CarRepository
 ) : ViewModel() {
-
-    private val _sort: MutableStateFlow<SortBy> = MutableStateFlow(SortBy.DEFAULT)
 
     private val _carsUiState: MutableStateFlow<UIState<List<Car>>> =
         MutableStateFlow(UIState.Empty())
@@ -32,15 +30,9 @@ class HomeViewModel @Inject constructor(
     fun refresh(sortBy: SortBy = SortBy.DEFAULT) = getCars(sortBy)
 
     private fun getCars(sortBy: SortBy = SortBy.DEFAULT) = viewModelScope.launch(Dispatchers.IO) {
-        _carsUiState.value = UIState.Loading()
-
-        val result = fireStore.collection("cars").apply {
-            if (sortBy != SortBy.DEFAULT)
-                orderBy(sortBy.toString())
-        }.get().await()
-
-        val list = result.toObjects(Car::class.java)
-        _carsUiState.value = UIState.Success(list)
+        carRepository.getAll(sortBy).collect {
+            _carsUiState.value = it
+        }
     }
 
     enum class SortBy {

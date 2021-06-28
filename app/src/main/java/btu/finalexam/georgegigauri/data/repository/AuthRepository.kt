@@ -33,7 +33,7 @@ class AuthRepository @Inject constructor(
             UserProfileChangeRequest.Builder().apply {
                 displayName = name
             }.build()
-        )
+        )?.await()
 
         emit(UIState.Success(result.user!!))
     }.catch { emit(UIState.Error(it.message ?: "Unknown Error")) }

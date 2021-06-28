@@ -54,7 +54,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), CarAdapter.OnCarItemCl
                 is UIState.Success -> {
                     // Handle Success Action
                     Log.i("DataClass", it.data.toString())
-                    adapter.submitList(it.data)
+                    adapter.submitList(it.data) {
+                        binding.rvCars.scrollToPosition(0)
+                    }
                     hideProgress()
                 }
             }
