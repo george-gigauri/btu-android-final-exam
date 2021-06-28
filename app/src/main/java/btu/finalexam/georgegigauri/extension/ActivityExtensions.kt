@@ -11,6 +11,11 @@ fun Activity.toast(message: String?) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 
+fun View.visible(isVisible : Boolean){
+    visibility = if(isVisible) View.VISIBLE else View.GONE
+}
+
+
 fun Activity.snackBar(view: View, message: String?, length: Int = Snackbar.LENGTH_SHORT) {
     Snackbar.make(
         view,
