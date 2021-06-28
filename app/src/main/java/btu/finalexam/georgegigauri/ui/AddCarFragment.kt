@@ -65,6 +65,7 @@ class AddCarFragment : BaseFragment<FragmentAddCarBinding>() {
                     ).navigate(R.id.navMain)
 
                     resetScreen()
+                    hideProgress()
                 }
 
                 is UIState.Loading -> showProgress()
