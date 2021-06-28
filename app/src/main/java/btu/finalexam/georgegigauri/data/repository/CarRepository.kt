@@ -44,11 +44,10 @@ class CarRepository @Inject constructor(
         emit(UIState.Success(car))
     }.catch { emit(UIState.Error(it.message ?: "Unknown Error Message")) }.flowOn(Dispatchers.IO)
 
-    private suspend fun addImageToStorage(uri: Uri): String? {
+    private suspend fun addImageToStorage(uri: Uri): String {
         val storageReference = storage.reference.child("images/" + UUID.randomUUID().toString())
 
         val result = storageReference.putFile(uri).await()
-        val url = result.metadata?.reference?.downloadUrl?.await()?.path
-        return url
+        return result.storage.downloadUrl.toString()
     }
 }
