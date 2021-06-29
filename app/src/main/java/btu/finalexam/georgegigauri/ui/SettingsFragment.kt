@@ -7,11 +7,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
-import btu.finalexam.georgegigauri.R
 import btu.finalexam.georgegigauri.base.BaseFragment
 import btu.finalexam.georgegigauri.databinding.FragmentSettingsBinding
 import btu.finalexam.georgegigauri.extension.openActivity
@@ -80,8 +77,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     }
 
 
-
-
     private fun selectImage() {
         val intent = Intent().apply {
             type = "image/*"
@@ -107,6 +102,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 is UIState.Error -> {
                     hideProgress()
                     snackBar(it.message)
+
+                    if (it.message == "SIGN_OUT")
+                        startActivity(Intent(requireContext(), SplashActivity::class.java))
                 }
 
                 else -> Unit
