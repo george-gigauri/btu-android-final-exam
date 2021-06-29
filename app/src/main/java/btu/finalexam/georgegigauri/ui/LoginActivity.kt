@@ -78,7 +78,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                 }
                 is UIState.Success -> {
                     // Handle Success Action
+                    finish()
                     openActivity(MainActivity::class.java)
+                    hideProgress()
                 }
             }
         }
