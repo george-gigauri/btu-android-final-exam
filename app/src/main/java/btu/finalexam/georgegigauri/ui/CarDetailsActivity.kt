@@ -7,6 +7,7 @@ import btu.finalexam.georgegigauri.base.BaseActivity
 import btu.finalexam.georgegigauri.data.model.Car
 import btu.finalexam.georgegigauri.data.model.Comment
 import btu.finalexam.georgegigauri.databinding.ActivityCarDetailsBinding
+import btu.finalexam.georgegigauri.extension.setImage
 import btu.finalexam.georgegigauri.extension.snackBar
 import btu.finalexam.georgegigauri.util.UIState
 import btu.finalexam.georgegigauri.viewmodel.CarDetailsViewModel
@@ -67,7 +68,9 @@ class CarDetailsActivity : BaseActivity<ActivityCarDetailsBinding>() {
     }
 
     private fun onSuccessLoadDetails(it: Car) {
-
+        binding.tvTitle.text = "${it.brand} ${it.model}"
+        binding.ivCar.setImage(it.image)
+        binding.tvDescription.text = it.description
     }
 
     private fun onSuccessLoadComments(comments: List<Comment>) {

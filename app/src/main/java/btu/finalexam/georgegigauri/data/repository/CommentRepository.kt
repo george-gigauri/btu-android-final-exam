@@ -15,7 +15,7 @@ import javax.inject.Singleton
 @Singleton
 class CommentRepository @Inject constructor(
     private val fireStore: FirebaseFirestore,
-    private val firebaseUser: FirebaseUser
+    private val firebaseUser: FirebaseUser?
 ) {
 
     fun getComments(id: String) = flow {
@@ -33,8 +33,8 @@ class CommentRepository @Inject constructor(
 
             val comment = Comment()
             comment.id = uid
-            comment.author = firebaseUser.displayName
-            comment.authorImage = firebaseUser.photoUrl.toString()
+            comment.author = firebaseUser?.displayName
+            comment.authorImage = firebaseUser?.photoUrl.toString()
             comment.comment = commentStr
 
             commentPath.document(uid).set(comment).await()
