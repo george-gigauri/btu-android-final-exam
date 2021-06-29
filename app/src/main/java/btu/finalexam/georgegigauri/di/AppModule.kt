@@ -26,6 +26,10 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideCurrentUser() = Firebase.auth.currentUser
+
+    @Provides
+    @Singleton
     fun provideFirebaseFirestore() = Firebase.firestore
 
     @Provides

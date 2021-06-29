@@ -1,5 +1,6 @@
 package btu.finalexam.georgegigauri.ui
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -88,5 +89,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), CarAdapter.OnCarItemCl
     }
 
     override fun onCarClick(car: Car) {
+        startActivity(Intent(requireContext(), CarDetailsActivity::class.java).apply {
+            putExtra("car_id", car.id)
+        })
     }
 }
