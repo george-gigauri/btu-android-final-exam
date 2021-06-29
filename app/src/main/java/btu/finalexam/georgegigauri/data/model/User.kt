@@ -1,7 +1,8 @@
 package btu.finalexam.georgegigauri.data.model
 
 data class User(
-    val name: String?,
-    val email: String?,
-    val profileUrl: String?
+    val uid: String,
+    val email: String,
+    val image: String?,
+    val name : String
 )
