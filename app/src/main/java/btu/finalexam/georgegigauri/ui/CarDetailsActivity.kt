@@ -93,5 +93,6 @@ class CarDetailsActivity : BaseActivity<ActivityCarDetailsBinding>() {
         Log.d("COMMENTS", comments.toString())
         adapter.submitList(comments)
         binding.etComment.text.clear()
+        binding.etComment.clearFocus()
     }
 }
