@@ -12,35 +12,58 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.tasks.await
 import java.util.*
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CarRepository @Inject constructor(
     private val auth: FirebaseAuth,
     private val fireStore: FirebaseFirestore,
-    private val storage: FirebaseStorage
+    private val storage: FirebaseStorage,
+    private val profileRepository: ProfileRepository
 ) {
 
     fun getAll(sortBy: HomeViewModel.SortBy) = flow {
         emit(UIState.Loading())
 
         val result = fireStore.collection("cars")
-        if (sortBy != HomeViewModel.SortBy.DEFAULT) {
-            val list = result.orderBy(sortBy.toString(), Query.Direction.ASCENDING)
+        var list = if (sortBy != HomeViewModel.SortBy.DEFAULT) {
+            result.orderBy(sortBy.toString(), Query.Direction.ASCENDING)
                 .get().await().toObjects(Car::class.java)
-            emit(UIState.Success(list))
         } else {
-            val list = result.get().await().toObjects(Car::class.java)
-            emit(UIState.Success(list))
+            result.get().await().toObjects(Car::class.java)
         }
+
+        list = list.map {
+            val user = profileRepository.getUserInfo(it.userId!!)
+            Car(
+                it.id,
+                it.brand,
+                it.model,
+                it.description,
+                it.image,
+                it.userId,
+                user?.name,
+                user?.image
+            )
+        }
+
+        emit(UIState.Success(list))
     }.catch { emit(UIState.Error(it.message ?: "Unknown Error")) }.flowOn(Dispatchers.IO)
 
     fun get(carId: String) = flow {
         emit(UIState.Loading())
 
         val result = fireStore.collection("cars").document(carId).get().await()
-        emit(UIState.Success(result.toObject(Car::class.java)!!))
+        val car = result.toObject(Car::class.java)!!
+        val user = profileRepository.getUserInfo(car.userId!!)
+        car.authorName = user?.name
+        car.authorImage = user?.image
+
+        emit(UIState.Success(car))
     }.catch { emit(UIState.Error(it.message ?: "Unknown Error")) }.flowOn(Dispatchers.IO)
 
     fun addCar(brand: String, model: String, description: String, image: Uri) = flow {
@@ -59,8 +82,7 @@ class CarRepository @Inject constructor(
             model,
             description,
             imageUrl,
-            user?.displayName,
-            user?.photoUrl?.toString()
+            user?.uid
         )
 
         documentReference.set(car).await()

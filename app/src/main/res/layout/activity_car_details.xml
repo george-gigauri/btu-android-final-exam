@@ -17,8 +17,8 @@
 
             <ImageView
                 android:id="@+id/ivBack"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="32dp"
                 android:src="@drawable/ic_back"
@@ -33,7 +33,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:text="title"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@id/ivBack"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -88,8 +88,61 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_comment"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/tvLabelComments" />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:id="@+id/progress_comments"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvLabelComments" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <RelativeLayout
+        android:id="@+id/rlAddComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="5dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivAvatar"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:src="@color/teal_200"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/etComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_toStartOf="@id/ivComment"
+            android:layout_toEndOf="@id/ivAvatar"
+            android:background="@null"
+            android:hint="დაწერე კომენტარი..."
+            android:paddingVertical="10dp"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/ivComment"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/ic_send"
+            app:tint="@color/teal_200" />
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

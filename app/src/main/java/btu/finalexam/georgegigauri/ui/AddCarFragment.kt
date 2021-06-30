@@ -120,7 +120,6 @@ class AddCarFragment : BaseFragment<FragmentAddCarBinding>() {
     private fun resetScreen() {
         binding.ivImage.visible(true)
         binding.tvAddImage.visible(true)
-        binding.addCardView.setPadding(42)
         binding.ivPicture.visible(false)
         binding.etBrand.text.clear()
         binding.etModel.text.clear()

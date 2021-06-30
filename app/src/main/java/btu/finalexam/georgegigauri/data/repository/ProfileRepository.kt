@@ -23,15 +23,7 @@ class ProfileRepository @Inject constructor(
     fun getUser() = flow {
         emit(UIState.Loading())
 
-        val user = User()
-        val result = fireStore.collection("users").document(auth.uid!!).get().await()
-        val userResult = result.toObject(User::class.java)
-        userResult?.let {
-            user.uid = it.uid
-            user.email = it.email
-            user.name = it.name
-            user.image = it.image
-        }
+        val user = getUserInfo(auth.uid!!)
 
         emit(UIState.Success(user))
     }.catch { emit(UIState.Error(it.message ?: "Unknown Error")) }.flowOn(Dispatchers.IO)
@@ -44,7 +36,6 @@ class ProfileRepository @Inject constructor(
         val imageUrl = addProfileImageToStorage(uri)
 
         val documentRef = fireStore.collection("users").document(currentUser!!.uid)
-
 
         val user = User(currentUser.uid, currentUser.email!!, imageUrl, currentUser.displayName!!)
         documentRef.set(user).await()
@@ -84,5 +75,10 @@ class ProfileRepository @Inject constructor(
         auth.signOut()
 
         emit(UIState.Error("SIGN_OUT"))
+    }.catch { emit(UIState.Error(it.message ?: "Unknown Error")) }.flowOn(Dispatchers.IO)
+
+    suspend fun getUserInfo(userId: String): User? {
+        val result = fireStore.collection("users").document(userId).get().await()
+        return result.toObject(User::class.java)
     }
 }

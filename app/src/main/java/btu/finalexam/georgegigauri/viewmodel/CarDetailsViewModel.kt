@@ -8,9 +8,8 @@ import btu.finalexam.georgegigauri.data.repository.CarRepository
 import btu.finalexam.georgegigauri.data.repository.CommentRepository
 import btu.finalexam.georgegigauri.util.UIState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,19 +25,19 @@ class CarDetailsViewModel @Inject constructor(
     private val _commentsUiState = MutableStateFlow<UIState<List<Comment>>>(UIState.Empty())
     val commentsUiState = _commentsUiState.asStateFlow()
 
-    fun load(id: String) = viewModelScope.launch {
+    fun load(id: String) = viewModelScope.launch(Dispatchers.IO) {
         carRepository.get(id).collect {
             _uiState.value = it
         }
     }
 
-    fun loadComments(id: String) = viewModelScope.launch {
+    fun loadComments(id: String) = viewModelScope.launch(Dispatchers.IO) {
         commentRepository.getComments(id).collect {
             _commentsUiState.value = it
         }
     }
 
-    fun addComment(carId: String, comment: String) = viewModelScope.launch {
+    fun addComment(carId: String, comment: String) = viewModelScope.launch(Dispatchers.IO) {
         commentRepository.addComment(carId, comment).collect {
             _commentsUiState.value = it
         }

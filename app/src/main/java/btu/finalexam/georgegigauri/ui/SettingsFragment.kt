@@ -50,15 +50,17 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             selectImage()
         }
         binding.btnSave.setOnClickListener {
-            if(binding.etPassword.text.isNotEmpty()){
-                if(binding.etPassword.text.toString() != binding.etRepeatPassword.text.toString()){
+            if (binding.etPassword.text.isNotEmpty()) {
+                if (binding.etPassword.text.toString() != binding.etRepeatPassword.text.toString()) {
                     binding.etRepeatPassword.error = "პაროლი არ დაემთხვა"
                     binding.etRepeatPassword.requestFocus()
                 } else {
                     setPassword(binding.etPassword.text.toString())
                 }
             }
-            addUser(imageUri)
+
+            if (!imageUri.path.isNullOrEmpty())
+                addUser(imageUri)
         }
 
 
