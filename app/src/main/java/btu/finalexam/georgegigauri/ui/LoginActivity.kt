@@ -35,7 +35,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
     private fun login() {
         val email = binding.etEmail.text.toString()
-        val password = binding.etPassword.toString()
+        val password = binding.etPassword.text.toString()
 
         if (email.isEmpty()) {
             binding.etEmail.error = "ელ. ფოსტის შეტანა სავალდებულოა"

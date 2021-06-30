@@ -33,7 +33,7 @@ class CommentRepository @Inject constructor(
                 user?.image,
                 it.timestamp
             )
-        }
+        }.sortedByDescending { it.timestamp }
 
         Log.d("RESULT_FS", result.toString())
 
@@ -66,7 +66,7 @@ class CommentRepository @Inject constructor(
                     user?.image,
                     it.timestamp
                 )
-            }
+            }.sortedByDescending { it.timestamp }
 
             emit(UIState.Success(comments))
         }.catch { emit(UIState.Error(it.message ?: "Unknown Error")) }.flowOn(Dispatchers.IO)
