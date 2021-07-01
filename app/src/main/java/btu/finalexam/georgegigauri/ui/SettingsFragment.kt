@@ -9,6 +9,8 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import btu.finalexam.georgegigauri.R
 import btu.finalexam.georgegigauri.base.BaseFragment
 import btu.finalexam.georgegigauri.databinding.FragmentSettingsBinding
 import btu.finalexam.georgegigauri.extension.openActivity
@@ -95,7 +97,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         viewModel.uiState.collect {
             when (it) {
                 is UIState.Success -> {
-                    activity?.openActivity(LoginActivity::class.java)
+                    requireActivity().findNavController(
+                        R.id.nav_host_fragment
+                    ).navigate(R.id.navMain)
                     hideProgress()
                 }
 
