@@ -1,21 +1,32 @@
 # AutoMobile
-AutoMobile აპლიკაცია მომხმარებელს საშუალებას აძლევს, დაამატოს მანქანები შემდეგი მახასიათებლებით: ბრენდი, მოდელი და აღწერა. დამატების შემდეგ მონაცემები აპლიკაციის ყველა მომხმარებლისვის ხდება ხილვადი, მომხმარებლებს შეუძლიათ პოსტებზე გამოაქვეყნონ საჯარო კომენტარები და ჩაერთონ დისკუსიებში.
-
-**როგორ გამოიყენებ აპლიკაციას?**
-უპირველეს ყოვლისა, შედიხარ სისტემაში, ან თუ არ გაქვს ანგარიში, რეგისტრირდები. შეგყავს სახელი და გვარი, ელ. ფოსტა, პაროლი და აჭერ ღილაკს 'რეგისტრაცია'. წარმატებით რეგისტრაციის შემდეგ, ავტომატურად გადამისამართდები მთავარ გვერდზე, სადაც სხვა მომხმარებლების მიერ დამატებულ პოსტებს დაინახავ, სურვილისამებრ, შეგიძლია ამ პოსტების დახარისხება ორი პარამეტრით: ავტორი, ბრენდი. ამისათვის საჭიროა თითი ეკრანის ზემოთ, უკიდურეს მარჯვენა კუთხეში არსებულ სორტირების ღილაკს დააჭირო.
+AutoMobile is mobile application where you can add your car and sell it. Other users can comment on your post and start Discussion.
 
 
-**როგორ დავამატო კომენტარი პოსტზე?**
-პოსტზე კომენტარის დასამატებლად, გადადი სასურველ პოსტზე, ეკრანის ბოლოში გამოგიჩნდება ველი, სადაც ჩაწერ ტექსტს და გაგზავნი მის გვერდით არსებულ ღილაკზე 1 კლიკით. ცოტა დალოდება სჭირდება.
+## Used With
+
+This app uses pretty new features like [StateFlow](https://developer.android.com/kotlin/flow/stateflow-and-sharedflow), [ViewBinding](https://developer.android.com/topic/libraries/view-binding), 
+
+## Instruction
+**How to use AutoMobile?**
+First of all, you must register and log in. Registration is pretty simple just fill the fields and press 'რეგისტრაცია'. After successful registration you will go on main screen where you can see all the posts, you can sort posts as well.
 
 
-**როგორ დავამატო საკუთარი პოსტი?**
-ნავიგაციის ველის შუა ელემენტი სწორედ რომ პოსტის დასამატებლადაა. ამ ტაბზე გადასვლისას დაინახავ რამდენიმე ტექსტის შესატან ველს: ბრენდი, მოდელი, აღწერა და სურათის ასატვირთ სივრცეს. 
-
-პირველ რიგში, ვარჩევთ მანქანის სურათს. ვაჭერთ 'აირჩიე სურათი'-ს, ვირჩევთ სურათს და ვაჭერთ OK-ს. ამის შემდეგ ვავსებთ მანქანის მონაცემებს, ყველა ველის შევსება სავალდებულოა! და ვაჭერთ დიდ ყვითელ ღილაკს: "დამატება". პოსტის წარმატებით დამატების შემდეგ დაბრუნდები მთავარ გვერდზე და დაინახავ რომ დამატებულია.
+**How To Add Comment On Post?**
+To comment on post you should press certain post and then scroll down, there are input field where you write your opinion or price anything you want.
 
 
-**პაროლის შეცვლა მინდა.**
-პაროლის შესაცვლელად გადადიხარ ნავიგაციის ველში განთავსებული ელემენტების ბოლო ელემენტზე. ეს არის პარამეტრები, პარამეტრებში შეგიძლია პროფილის ფოტოსა და პაროლის შეცვლა, ასევე სისტემიდან გამოსვლა.
+**How To Add My Own Post?**
+On navigation tab in the middle there is pencil and paper icon, if you press it, you will navigate another screen where you can add car, just add photo, brand,model and description and simply press 'დამატება'.
 
-პაროლის შესაცვლელად, ავსებ ყველა სავალდებულო ველს და აჭერ ღილაკს: "შენახვა".
+
+**How To Change Password or Profile Image.**
+If you want to change the password or the profile image you should press the last icon on navigation tab, its settings screen, where you can press image and set the image you want from gallery, otherwise you want to change the password, just fill the fields which is passowrd and repeat password  and press "შენახვა", that all new password has set!
+
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+[BTU](https://btu.edu.ge/)
