@@ -12,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.tasks.await
 import java.util.*
 import javax.inject.Inject
@@ -31,8 +30,12 @@ class CarRepository @Inject constructor(
 
         val result = fireStore.collection("cars")
         var list = if (sortBy != HomeViewModel.SortBy.DEFAULT) {
-            result.orderBy(sortBy.toString(), Query.Direction.ASCENDING)
-                .get().await().toObjects(Car::class.java)
+            if (sortBy == HomeViewModel.SortBy.AUTHOR) {
+                result.get().await().toObjects(Car::class.java).sortedBy { it.userId }
+            } else {
+                result.orderBy(sortBy.toString(), Query.Direction.ASCENDING)
+                    .get().await().toObjects(Car::class.java)
+            }
         } else {
             result.get().await().toObjects(Car::class.java)
         }
